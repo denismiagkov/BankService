@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:54321/postgres
+    username: postgres
+    password: 123
+    driver-class-name: org.postgresql.Driver
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+#    default-schema: bank
+#    liquibase-schema: migration
+    enabled: true
+
+#  security:
+#    user:
+#      name: user
+#      password: 12345
+
+authentication:
+  valueOfJwtAccessSecretKey: Nb3YCWOp7kghAjoQkiNze2PTiLjQPQYdegcPM9oC77UkpUyJIuobhbeWRN+OI8PjXyGrITKxJWhYvrBlgH4JFA==
+  valueOfJwtRefreshSecretKey: tSlh5T96KurUBOsKV0Ja/AIVGKpakIvDpejeRBxukbL9xJrQ1XoCodsoQhH6gmWiUevBe/Gw1FRiHn9HzExyCQ==
+
+
+
