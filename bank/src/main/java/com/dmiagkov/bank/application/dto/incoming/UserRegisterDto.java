@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -30,9 +31,15 @@ public class UserRegisterDto {
     @JsonProperty("email")
     private String email;
 
+    @JsonProperty("account_id")
+    private String accountId;
+
     @JsonProperty("login")
     private String login;
 
     @JsonProperty("password")
     private String password;
+
+    @JsonProperty("balance")
+    private BigDecimal balance;
 }

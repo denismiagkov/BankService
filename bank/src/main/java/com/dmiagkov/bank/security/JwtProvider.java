@@ -1,5 +1,6 @@
 package com.dmiagkov.bank.security;
 
+import com.dmiagkov.bank.application.dto.outgoing.UserDto;
 import com.dmiagkov.bank.domain.User;
 import io.jsonwebtoken.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,9 +25,9 @@ public class JwtProvider {
         this.jwtParser = Jwts.parser().setSigningKey(secret_key);
     }
 
-    public String createToken(User user) {
+    public String createToken(UserDto user) {
         Claims claims = Jwts.claims().setSubject(user.getLogin());
-        claims.put("firstName", user.getFirstName());
+        claims.put("userId", user.getId());
         claims.put("lastName", user.getLastName());
         Date tokenCreateTime = new Date();
         Date tokenValidity = new Date(tokenCreateTime.getTime() + TimeUnit.MINUTES.toMillis(accessTokenValidity));

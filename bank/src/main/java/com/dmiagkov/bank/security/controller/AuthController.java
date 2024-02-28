@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class AuthController {
     private final AuthService authService;
-    private final UserService userService;
-
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest jwtRequest) {

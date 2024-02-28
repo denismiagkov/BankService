@@ -6,5 +6,7 @@ import com.dmiagkov.bank.domain.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService {
+    UserDto registerUser(UserRegisterDto userRegisterDto);
 
+    UserDto getUserDto(String login);
 }

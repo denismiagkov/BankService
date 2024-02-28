@@ -50,31 +50,31 @@
             </column>
         </createTable>
     </changeSet>
-<!--    <changeSet id="004-create-sequence-readings_id_seq" author="denismiagkov">-->
-<!--        <createSequence sequenceName="readings_id_seq" startValue="1" incrementBy="1"/>-->
-<!--    </changeSet>-->
-<!--    <changeSet id="005-create-table-meter_readings" author="denismiagkov">-->
-<!--        <createTable schemaName="meter_service" tableName="meter_readings">-->
-<!--            <column name="id" type="BIGINT" defaultValueSequenceNext="readings_id_seq">-->
-<!--                <constraints primaryKey="true"/>-->
-<!--                &lt;!&ndash; Идентификатор показания счетчика &ndash;&gt;-->
-<!--            </column>-->
-<!--            <column name="user_id" type="BIGINT">-->
-<!--                <constraints nullable="false" foreignKeyName="FK_meter_readings_user_id"-->
-<!--                             referencedColumnNames="id" referencedTableName="users"-->
-<!--                             referencedTableSchemaName="meter_service"/>-->
-<!--                &lt;!&ndash; Пользователь, передающий показание счетчика &ndash;&gt;-->
-<!--            </column>-->
-<!--            <column name="date" type="TIMESTAMP">-->
-<!--                <constraints nullable="false"/>-->
-<!--                &lt;!&ndash; Дата и время передачи показания счетчика &ndash;&gt;-->
-<!--            </column>-->
-<!--            <column name="utility_id" type="BIGINT"/>-->
-<!--            <column name="value" type="REAL">-->
-<!--                &lt;!&ndash; Тип показания счетчика &ndash;&gt;-->
-<!--            </column>-->
-<!--        </createTable>-->
-<!--    </changeSet>-->
+    <changeSet id="004-create-sequence-accounts_id_seq" author="denismiagkov">
+        <createSequence sequenceName="accounts_id_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="005-create-table-accounts" author="denismiagkov">
+        <createTable schemaName="bank" tableName="accounts">
+            <column name="id" type="BIGINT" defaultValueSequenceNext="accounts_id_seq">
+                <constraints primaryKey="true"/>
+                <!-- Идентификатор счета пользователя -->
+            </column>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="FK_accounts_user_id"
+                             referencedColumnNames="id" referencedTableName="users"
+                             referencedTableSchemaName="bank"/>
+                <!-- Идентификатор пользователя-владельца счета -->
+            </column>
+            <column name="number" type="VARCHAR(25)">
+                <constraints nullable="false"/>
+                <!-- Номер счета -->
+            </column>
+            <column name="balance" type="NUMERIC">
+                <constraints nullable="false"/>
+                <!-- Остаток денежных средств на счете -->
+            </column>
+        </createTable>
+    </changeSet>
 <!--    <changeSet id="006-create-sequence-activities_id_seq" author="denismiagkov">-->
 <!--        <createSequence sequenceName="activities_id_seq" startValue="1" incrementBy="1"/>-->
 <!--    </changeSet>-->

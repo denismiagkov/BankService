@@ -2,17 +2,15 @@ package com.dmiagkov.bank.security.service;
 
 import com.dmiagkov.bank.application.dto.incoming.UserRegisterDto;
 import com.dmiagkov.bank.application.dto.outgoing.UserDto;
-import com.dmiagkov.bank.application.mapper.UserMapper;
 import com.dmiagkov.bank.application.repository.UserRepository;
+import com.dmiagkov.bank.application.service.UserService;
 import com.dmiagkov.bank.security.JwtProvider;
 import com.dmiagkov.bank.security.http.JwtRequest;
 import com.dmiagkov.bank.security.http.JwtResponse;
-import com.dmiagkov.bank.domain.User;
+import com.dmiagkov.bank.security.user_details.DetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +22,8 @@ public class AuthServiceImpl implements AuthService {
     private final JwtProvider jwtProvider;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-    private final UserMapper userMapper;
+    private final UserService userService;
+    private final DetailsServiceImpl userDetailsService;
 
 
     /**
@@ -37,9 +36,8 @@ public class AuthServiceImpl implements AuthService {
     public UserDto signUp(UserRegisterDto userRegisterDto) {
         var encodedPassword = passwordEncoder.encode(userRegisterDto.getPassword());
         userRegisterDto.setPassword(encodedPassword);
-        User toRegisterUser = userMapper.userRegisterDtoToUser(userRegisterDto);
-        User registeredUser = userRepository.save(toRegisterUser);
-        return userMapper.userToUserDto(registeredUser);
+        return userService.registerUser(userRegisterDto);
+
     }
 
     /**
@@ -54,20 +52,8 @@ public class AuthServiceImpl implements AuthService {
                 request.getLogin(),
                 request.getPassword()
         ));
-//        var user = userService
-//                .loadUserByUsername(request.getLogin());
-
-        User user1 = new User(request.getLogin(), request.getPassword());
-        var jwt = jwtProvider.createToken(user1);
+        UserDto userDto = userService.getUserDto(request.getLogin());
+        var jwt = jwtProvider.createToken(userDto);
         return new JwtResponse(jwt);
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        User user = userRepository.findUserByLogin(login);
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getLogin())
-                .password(user.getPassword())
-                .build();
     }
 }
