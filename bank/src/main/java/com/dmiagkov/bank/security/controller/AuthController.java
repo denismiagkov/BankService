@@ -3,6 +3,7 @@ package com.dmiagkov.bank.security.controller;
 import com.dmiagkov.bank.application.dto.incoming.UserRegisterDto;
 import com.dmiagkov.bank.application.dto.outgoing.UserDto;
 import com.dmiagkov.bank.application.service.UserService;
+import com.dmiagkov.bank.infrastructure.in.validator.DtoValidator;
 import com.dmiagkov.bank.security.service.AuthService;
 import com.dmiagkov.bank.security.service.AuthServiceImpl;
 import com.dmiagkov.bank.security.http.JwtRequest;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class AuthController {
     private final AuthService authService;
+    private final DtoValidator validator;
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest jwtRequest) {
@@ -28,6 +30,7 @@ public class AuthController {
 
     @PostMapping("/registration")
     public ResponseEntity<UserDto> registerUser(@RequestBody UserRegisterDto userRegisterDto) {
+        validator.validateRegisterDto(userRegisterDto);
         UserDto userDto = authService.signUp(userRegisterDto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(userDto);

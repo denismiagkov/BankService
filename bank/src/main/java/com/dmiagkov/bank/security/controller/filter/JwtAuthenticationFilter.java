@@ -1,4 +1,4 @@
-package com.dmiagkov.bank.infrastructure.in.filter;
+package com.dmiagkov.bank.security.controller.filter;
 
 import com.dmiagkov.bank.security.JwtProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;

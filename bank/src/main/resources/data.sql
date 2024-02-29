@@ -36,19 +36,22 @@ CREATE TABLE IF NOT EXISTS transactions
 CREATE TABLE IF NOT EXISTS user_phone_numbers
 (
     user_id      bigint references users (id),
-    phone varchar(15),
+    phone varchar(15) UNIQUE ,
     PRIMARY KEY (user_id, phone)
 );
 
 CREATE TABLE IF NOT EXISTS user_emails
 (
     user_id       bigint references users (id),
-    email varchar(45),
+    email varchar(45) UNIQUE ,
     PRIMARY KEY (user_id, email)
 );
 
 INSERT INTO users (first_name, patronymic, last_name, birth_date, login, password)
-VALUES ('Petr', 'Andreevich', 'Smirnov', '1977-10-23', 'user1', '123');
+VALUES ('Petr', 'Andreevich', 'Smirnov', '1977-10-23', 'user1', '$2a$10$N2reNKAAoPb.KLLbR3LMRuF9uOFZuqa96cHcrERskk.PZOoF7S.2S');
 
 INSERT INTO users (first_name, patronymic, last_name, birth_date, login, password)
-VALUES ('Elena', 'Olegovna', 'Orehova', '2002-07-15', 'user2', '456');
+VALUES ('Elena', 'Olegovna', 'Orehova', '2002-07-15', 'user2', '$2a$10$C5NbeCX6UQ9DK0jp3UUV8.et/UU9KXFvbfPJWiWfg/csfCt99WkIW');
+
+INSERT INTO users (first_name, patronymic, last_name, birth_date, login, password)
+VALUES ('Oleg', 'Petrovich', 'Zaharov', '1981-10-13', 'user3', '789');
