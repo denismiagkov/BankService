@@ -13,8 +13,8 @@ public class TransactionDto {
 
     @Schema(description = "Идентификатор транзакции")
     private Long id;
-    @Schema(description = "Идентификатор пользователя")
-    private Long userId;
+//    @Schema(description = "Идентификатор пользователя")
+//    private Long userId;
     @Schema(description = "Номер счета")
     private Long accountId;
     @Schema(description = "Время совершения транзакции")

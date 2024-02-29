@@ -11,10 +11,11 @@ spring:
 #    liquibase-schema: migration
     enabled: true
 
-#  security:
-#    user:
-#      name: user
-#      password: 12345
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
 
 authentication:
   valueOfJwtAccessSecretKey: Nb3YCWOp7kghAjoQkiNze2PTiLjQPQYdegcPM9oC77UkpUyJIuobhbeWRN+OI8PjXyGrITKxJWhYvrBlgH4JFA==

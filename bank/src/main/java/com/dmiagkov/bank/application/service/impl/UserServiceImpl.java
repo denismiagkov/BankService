@@ -24,9 +24,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto registerUser(UserRegisterDto userRegisterDto) {
-        if (userRepository.existsByEmail(userRegisterDto.getEmail())) {
-            throw new PlayerAlreadyExistsException(userRegisterDto);
-        } else if (userRepository.existsByLogin(userRegisterDto.getLogin())) {
+//        if (userRepository.existsByEmail(userRegisterDto.getEmail())) {
+//            throw new PlayerAlreadyExistsException(userRegisterDto);
+        if (userRepository.existsByLogin(userRegisterDto.getLogin())) {
             throw new LoginIsNotUniqueException(userRegisterDto.getLogin());
         } else {
             User toRegisterUser = userMapper.userRegisterDtoToUser(userRegisterDto);

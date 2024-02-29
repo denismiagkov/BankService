@@ -15,7 +15,6 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @Data
-@EqualsAndHashCode(of = {"firstName", "phone"})
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -23,17 +22,35 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "first_name")
     private String firstName;
+
+    @Column(name = "patronymic")
     private String patronymic;
+
+    @Column(name = "last_name")
     private String lastName;
+
+    @Column(name = "birth_date")
     private LocalDate birthDate;
-    @NotNull
-//    @ElementCollection
-    private String phone;
-    @NotNull
-    // @ElementCollection
-    private String email;
+
+    @Builder.Default
+    @ElementCollection
+    @CollectionTable(name = "user_phone_numbers", joinColumns = @JoinColumn(name = "user_id"))
+    @AttributeOverride(name = "phoneNumber", column = @Column(name = "phone"))
+    private List<Phone> phones = new ArrayList<>();
+
+    @Builder.Default
+    @ElementCollection
+    @CollectionTable(name = "user_emails", joinColumns = @JoinColumn(name = "user_id"))
+    @AttributeOverride(name = "emailAddress", column = @Column(name = "email"))
+    private List<Email> email = new ArrayList<>();
+
+    @Column(name = "login", unique = true, nullable = false)
     private String login;
+
+    @Column(name = "password")
     private String password;
 
     public User(String login, String password) {

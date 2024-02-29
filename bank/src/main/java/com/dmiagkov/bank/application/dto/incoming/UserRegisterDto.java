@@ -1,6 +1,8 @@
 package com.dmiagkov.bank.application.dto.incoming;
 
 import com.dmiagkov.bank.domain.Account;
+import com.dmiagkov.bank.domain.Email;
+import com.dmiagkov.bank.domain.Phone;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,11 +27,11 @@ public class UserRegisterDto {
     @JsonProperty("birth_date")
     private LocalDate birthDate;
 
-    @JsonProperty("phone")
-    private String phone;
+    @JsonProperty("phones")
+    private List<Phone> phones;
 
     @JsonProperty("email")
-    private String email;
+    private List<Email> email;
 
     @JsonProperty("account_id")
     private String accountId;
