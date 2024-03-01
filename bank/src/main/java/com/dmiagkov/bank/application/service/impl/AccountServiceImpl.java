@@ -1,5 +1,6 @@
 package com.dmiagkov.bank.application.service.impl;
 
+import com.dmiagkov.bank.application.dto.incoming.TransactionApplyDto;
 import com.dmiagkov.bank.application.dto.incoming.UserRegisterDto;
 import com.dmiagkov.bank.application.dto.outgoing.AccountDto;
 import com.dmiagkov.bank.application.mapper.AccountMapper;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Random;
 
 /**
@@ -37,7 +39,9 @@ public class AccountServiceImpl implements AccountService {
         Account account = Account.builder()
                 .userId(userId)
                 .number(getAccountNumber())
-                .amount(userRegisterDto.getBalance())
+                .balance(userRegisterDto.getInitialDeposit())
+                .openedAt(LocalDateTime.now())
+                .initialDeposit(userRegisterDto.getInitialDeposit())
                 .build();
         userRegisterDto.setAccountId(account.getNumber());
         accountRepository.save(account);
@@ -62,27 +66,16 @@ public class AccountServiceImpl implements AccountService {
      * @param playerId id игрока
      * @param amount   денежная сумма
      */
-    public AccountDto setBalance(Transaction transaction) {
-        if (areFundsEnough(transaction.getAccountId(), transaction.getAmount())) {
-            return accountMapper.accountToAccountDto(
-                    accountRepository.update(transaction.getAccountId(), transaction.getAmount()));
-        } else {
-            throw new NotEnoughFundsOnAccountException();
-        }
+    public AccountDto setBalance(TransactionApplyDto dto) {
+        Account account = accountRepository.findAccountByUserId(dto.getUserId());
+        BigDecimal newBalance = dto.getType().equals(Transaction.TransactionType.CREDIT)
+                ? increaseBalance(account, dto)
+                : decreaseBalance(account, dto);
+        account.setBalance(newBalance);
+        account = accountRepository.save(account);
+        return accountMapper.accountToAccountDto(account);
     }
 
-    /**
-     * Метод рассчитывает, достаточно ли денежных средств на счете игрока для их списания.
-     *
-     * @param playerId id игрока
-     * @param amount   сумма списания
-     * @return boolean
-     * @throws NotEnoughFundsOnAccountException в случае, если на счете игрока недостаточно денежных средств для
-     *                                          совершения транзакции
-     */
-    private boolean areFundsEnough(Long userId, BigDecimal amount) {
-        return getBalance(userId).getBalance().compareTo(amount) < 0;
-    }
 
     /**
      * Метод имитирует процесс присвоения номера создаваемому счету при регистрации игрока
@@ -98,5 +91,30 @@ public class AccountServiceImpl implements AccountService {
                 return number;
             }
         }
+    }
+
+    private BigDecimal increaseBalance(Account account, TransactionApplyDto dto) {
+        return account.getBalance().add(dto.getAmount());
+    }
+
+    private BigDecimal decreaseBalance(Account account, TransactionApplyDto dto) {
+        if (areFundsEnough(account, dto.getAmount())) {
+            return account.getBalance().subtract(dto.getAmount());
+        } else {
+            throw new NotEnoughFundsOnAccountException();
+        }
+    }
+
+    /**
+     * Метод рассчитывает, достаточно ли денежных средств на счете игрока для их списания.
+     *
+     * @param playerId id игрока
+     * @param amount   сумма списания
+     * @return boolean
+     * @throws NotEnoughFundsOnAccountException в случае, если на счете игрока недостаточно денежных средств для
+     *                                          совершения транзакции
+     */
+    private boolean areFundsEnough(Account account, BigDecimal amount) {
+        return account.getBalance().compareTo(amount) >= 0;
     }
 }

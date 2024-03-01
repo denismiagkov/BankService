@@ -2,10 +2,8 @@ package com.dmiagkov.bank.security.controller;
 
 import com.dmiagkov.bank.application.dto.incoming.UserRegisterDto;
 import com.dmiagkov.bank.application.dto.outgoing.UserDto;
-import com.dmiagkov.bank.application.service.UserService;
-import com.dmiagkov.bank.infrastructure.in.validator.DtoValidator;
+import com.dmiagkov.bank.infrastructure.in.validator.UserDtoValidator;
 import com.dmiagkov.bank.security.service.AuthService;
-import com.dmiagkov.bank.security.service.AuthServiceImpl;
 import com.dmiagkov.bank.security.http.JwtRequest;
 import com.dmiagkov.bank.security.http.JwtResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class AuthController {
     private final AuthService authService;
-    private final DtoValidator validator;
+    private final UserDtoValidator validator;
 
     @Operation(
             summary = "Adds new telephone number to user progile",

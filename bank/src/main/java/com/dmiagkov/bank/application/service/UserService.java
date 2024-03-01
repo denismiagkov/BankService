@@ -13,4 +13,5 @@ public interface UserService {
     UserDto deletePhone(UpdateInfoDto updateDto);
     UserDto addEmail(UpdateInfoDto updateInfoDto);
     UserDto deleteEmail(UpdateInfoDto updateInfoDto);
+    boolean existsUser(Long id);
 }

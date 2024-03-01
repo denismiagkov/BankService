@@ -4,7 +4,7 @@ import com.dmiagkov.bank.application.dto.outgoing.UserDto;
 import com.dmiagkov.bank.application.mapper.UserMapper;
 import com.dmiagkov.bank.application.repository.UserRepository;
 import com.dmiagkov.bank.application.service.SearchService;
-import com.dmiagkov.bank.application.service.exceptions.UserNotExistException;
+import com.dmiagkov.bank.application.service.exceptions.UserIsNotExistException;
 import com.dmiagkov.bank.domain.Email;
 import com.dmiagkov.bank.domain.Phone;
 import com.dmiagkov.bank.domain.User;
@@ -31,7 +31,7 @@ public class SearchServiceImpl implements SearchService {
     public UserDto findUserByPhone(Phone phone) {
         User user = Optional.ofNullable(
                         userRepository.findUserByPhonesContaining(phone))
-                .orElseThrow(UserNotExistException::new);
+                .orElseThrow(UserIsNotExistException::new);
         return userMapper.userToUserDto(user);
     }
 

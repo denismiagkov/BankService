@@ -1,4 +1,4 @@
-package com.dmiagkov.bank.infrastructure.in.exception_handling.exceptions;
+package com.dmiagkov.bank.infrastructure.in.exception_handling.exceptions.user;
 
 public class IsNotExistEmailException extends RuntimeException {
     public IsNotExistEmailException() {

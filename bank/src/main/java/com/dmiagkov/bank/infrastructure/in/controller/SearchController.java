@@ -1,12 +1,9 @@
 package com.dmiagkov.bank.infrastructure.in.controller;
 
-import com.dmiagkov.bank.application.dto.incoming.UpdateInfoDto;
 import com.dmiagkov.bank.application.dto.outgoing.UserDto;
 import com.dmiagkov.bank.application.service.SearchService;
-import com.dmiagkov.bank.application.service.UserService;
 import com.dmiagkov.bank.domain.Email;
 import com.dmiagkov.bank.domain.Phone;
-import com.dmiagkov.bank.infrastructure.in.validator.DtoValidator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

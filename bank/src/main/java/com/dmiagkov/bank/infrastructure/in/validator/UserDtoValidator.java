@@ -6,13 +6,13 @@ import com.dmiagkov.bank.application.repository.UserRepository;
 import com.dmiagkov.bank.domain.Email;
 import com.dmiagkov.bank.domain.Phone;
 import com.dmiagkov.bank.domain.User;
-import com.dmiagkov.bank.infrastructure.in.exception_handling.exceptions.*;
+import com.dmiagkov.bank.infrastructure.in.exception_handling.exceptions.user.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class DtoValidator {
+public class UserDtoValidator {
 
     private final UserRepository userRepository;
 

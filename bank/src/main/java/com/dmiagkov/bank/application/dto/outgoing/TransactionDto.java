@@ -1,6 +1,6 @@
 package com.dmiagkov.bank.application.dto.outgoing;
 
-import com.dmiagkov.bank.domain.TransactionType;
+import com.dmiagkov.bank.domain.Transaction;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -20,7 +20,7 @@ public class TransactionDto {
     @Schema(description = "Время совершения транзакции")
     private LocalDateTime date;
     @Schema(description = "Тип транзакции", examples = {"DEBIT", "CREDIT"})
-    private TransactionType type;
+    private Transaction.TransactionType type;
     @Schema(description = "Сумма транзакции")
     private BigDecimal amount;
 }

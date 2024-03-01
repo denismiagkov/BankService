@@ -1,6 +1,5 @@
 package com.dmiagkov.bank.application.dto.incoming;
 
-import com.dmiagkov.bank.domain.Account;
 import com.dmiagkov.bank.domain.Email;
 import com.dmiagkov.bank.domain.Phone;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -42,6 +41,6 @@ public class UserRegisterDto {
     @JsonProperty("password")
     private String password;
 
-    @JsonProperty("balance")
-    private BigDecimal balance;
+    @JsonProperty("deposit")
+    private BigDecimal initialDeposit;
 }

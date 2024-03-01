@@ -1,11 +1,9 @@
 package com.dmiagkov.bank.infrastructure.in.controller;
 
 import com.dmiagkov.bank.application.dto.incoming.UpdateInfoDto;
-import com.dmiagkov.bank.application.dto.incoming.UserRegisterDto;
-import com.dmiagkov.bank.application.dto.outgoing.AccountDto;
 import com.dmiagkov.bank.application.dto.outgoing.UserDto;
 import com.dmiagkov.bank.application.service.UserService;
-import com.dmiagkov.bank.infrastructure.in.validator.DtoValidator;
+import com.dmiagkov.bank.infrastructure.in.validator.UserDtoValidator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-    private final DtoValidator validator;
+    private final UserDtoValidator validator;
 
     @Operation(
             summary = "Adds new telephone number to user profile",

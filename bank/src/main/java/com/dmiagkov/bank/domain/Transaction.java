@@ -35,9 +35,20 @@ public class Transaction {
      *
      * @see TransactionType
      */
+    @Enumerated(EnumType.STRING)
     private TransactionType type;
     /**
      * Сумма транзакции
      */
     private BigDecimal amount;
+
+
+    /**
+     * Исчерпывающий перечень типов транзакций:
+     * - дебетовая;
+     * - кредитная
+     * */
+    public enum TransactionType {
+        DEBIT, CREDIT
+    }
 }

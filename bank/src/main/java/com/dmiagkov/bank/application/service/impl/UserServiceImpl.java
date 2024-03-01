@@ -7,7 +7,6 @@ import com.dmiagkov.bank.application.mapper.UserMapper;
 import com.dmiagkov.bank.application.repository.UserRepository;
 import com.dmiagkov.bank.application.service.AccountService;
 import com.dmiagkov.bank.application.service.UserService;
-import com.dmiagkov.bank.infrastructure.in.exception_handling.exceptions.LoginIsNotUniqueException;
 import com.dmiagkov.bank.domain.Email;
 import com.dmiagkov.bank.domain.Phone;
 import com.dmiagkov.bank.domain.User;
@@ -68,5 +67,9 @@ public class UserServiceImpl implements UserService {
         );
         user = userRepository.save(user);
         return userMapper.userToUserDto(user);
+    }
+
+    public boolean existsUser(Long id){
+        return userRepository.existsById(id);
     }
 }

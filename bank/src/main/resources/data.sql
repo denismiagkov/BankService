@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS accounts
 CREATE TABLE IF NOT EXISTS transactions
 (
     id         SERIAL PRIMARY KEY,
-    account_id BIGINT UNIQUE references accounts (id),
+    account_id BIGINT references accounts (id),
     date       timestamp   NOT NULL,
     type       varchar(45) NOT NULL,
     amount     numeric     NOT NULL
@@ -54,4 +54,4 @@ INSERT INTO users (first_name, patronymic, last_name, birth_date, login, passwor
 VALUES ('Elena', 'Olegovna', 'Orehova', '2002-07-15', 'user2', '$2a$10$C5NbeCX6UQ9DK0jp3UUV8.et/UU9KXFvbfPJWiWfg/csfCt99WkIW');
 
 INSERT INTO users (first_name, patronymic, last_name, birth_date, login, password)
-VALUES ('Oleg', 'Petrovich', 'Zaharov', '1981-10-13', 'user3', '789');
+VALUES ('Oleg', 'Petrovich', 'Zaharov', '1981-10-13', 'user3', '$2a$10$pThZjqVy05zhBwlIoJHg3eqIgZJUgn.ISIFl4aGtx8gV5PEkkRak6');

@@ -1,9 +1,8 @@
 package com.dmiagkov.bank.application.service;
 
+import com.dmiagkov.bank.application.dto.incoming.TransactionApplyDto;
 import com.dmiagkov.bank.application.dto.outgoing.TransactionDto;
-import com.dmiagkov.bank.domain.Transaction;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -11,11 +10,12 @@ import java.util.List;
  */
 public interface TransactionService {
 
-    TransactionDto commitTransaction(TransactionDto apply);
-
     /**
      * Метод должен реализовывать просмотр истории транзакций
      */
     List<TransactionDto> getTransactionHistory(Long accountId);
 
+    TransactionDto commitCreditTransaction(TransactionApplyDto transactionInfo);
+
+    TransactionDto commitDebitTransaction(TransactionApplyDto transactionInfo);
 }

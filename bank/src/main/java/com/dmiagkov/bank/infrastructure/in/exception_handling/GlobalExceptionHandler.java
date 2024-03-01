@@ -1,7 +1,7 @@
 package com.dmiagkov.bank.infrastructure.in.exception_handling;
 
-import com.dmiagkov.bank.application.service.exceptions.UserNotExistException;
-import com.dmiagkov.bank.infrastructure.in.exception_handling.exceptions.*;
+import com.dmiagkov.bank.application.service.exceptions.UserIsNotExistException;
+import com.dmiagkov.bank.infrastructure.in.exception_handling.exceptions.user.*;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler()
-    public ResponseEntity<String> handleException(UserNotExistException exception) {
+    public ResponseEntity<String> handleException(UserIsNotExistException exception) {
         LOG.error(EXCEPTION_MESSAGE, exception);
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
