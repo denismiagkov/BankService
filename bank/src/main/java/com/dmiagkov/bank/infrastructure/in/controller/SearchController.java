@@ -2,6 +2,7 @@ package com.dmiagkov.bank.infrastructure.in.controller;
 
 import com.dmiagkov.bank.application.dto.outgoing.UserDto;
 import com.dmiagkov.bank.application.service.SearchService;
+import com.dmiagkov.bank.aspects.annotations.Loggable;
 import com.dmiagkov.bank.domain.Email;
 import com.dmiagkov.bank.domain.Phone;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
+@Loggable
 @RestController
 @RequiredArgsConstructor
 public class SearchController {

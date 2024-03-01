@@ -18,10 +18,12 @@ CREATE TABLE users
 
 CREATE TABLE IF NOT EXISTS accounts
 (
-    id      SERIAL PRIMARY KEY,
-    user_id BIGINT      NOT NULL UNIQUE references users (id),
-    number  varchar(45) NOT NULL,
-    balance numeric     NOT NULL
+    id              SERIAL PRIMARY KEY,
+    user_id         BIGINT      NOT NULL UNIQUE references users (id),
+    number          varchar(45) NOT NULL,
+    balance         numeric     NOT NULL,
+    opened_at       TIMESTAMP   NOT NULL,
+    initial_deposit NUMERIC     NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS transactions
@@ -35,23 +37,29 @@ CREATE TABLE IF NOT EXISTS transactions
 
 CREATE TABLE IF NOT EXISTS user_phone_numbers
 (
-    user_id      bigint references users (id),
-    phone varchar(15) UNIQUE ,
+    user_id bigint references users (id),
+    phone   varchar(15) UNIQUE,
     PRIMARY KEY (user_id, phone)
 );
 
 CREATE TABLE IF NOT EXISTS user_emails
 (
-    user_id       bigint references users (id),
-    email varchar(45) UNIQUE ,
+    user_id bigint references users (id),
+    email   varchar(45) UNIQUE,
     PRIMARY KEY (user_id, email)
 );
 
 INSERT INTO users (first_name, patronymic, last_name, birth_date, login, password)
-VALUES ('Petr', 'Andreevich', 'Smirnov', '1977-10-23', 'user1', '$2a$10$N2reNKAAoPb.KLLbR3LMRuF9uOFZuqa96cHcrERskk.PZOoF7S.2S');
+VALUES ('Petr', 'Andreevich', 'Smirnov', '1977-10-23', 'user1',
+        '$2a$10$N2reNKAAoPb.KLLbR3LMRuF9uOFZuqa96cHcrERskk.PZOoF7S.2S');
+-- password=123
 
 INSERT INTO users (first_name, patronymic, last_name, birth_date, login, password)
-VALUES ('Elena', 'Olegovna', 'Orehova', '2002-07-15', 'user2', '$2a$10$C5NbeCX6UQ9DK0jp3UUV8.et/UU9KXFvbfPJWiWfg/csfCt99WkIW');
+VALUES ('Elena', 'Olegovna', 'Orehova', '2002-07-15', 'user2',
+        '$2a$10$C5NbeCX6UQ9DK0jp3UUV8.et/UU9KXFvbfPJWiWfg/csfCt99WkIW');
+-- password=456
 
 INSERT INTO users (first_name, patronymic, last_name, birth_date, login, password)
-VALUES ('Oleg', 'Petrovich', 'Zaharov', '1981-10-13', 'user3', '$2a$10$pThZjqVy05zhBwlIoJHg3eqIgZJUgn.ISIFl4aGtx8gV5PEkkRak6');
+VALUES ('Oleg', 'Petrovich', 'Zaharov', '1981-10-13', 'user3',
+        '$2a$10$pThZjqVy05zhBwlIoJHg3eqIgZJUgn.ISIFl4aGtx8gV5PEkkRak6');
+-- password=789

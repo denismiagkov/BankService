@@ -12,6 +12,7 @@ import com.dmiagkov.bank.domain.Phone;
 import com.dmiagkov.bank.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +21,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final AccountService accountService;
 
+    @Transactional
     @Override
     public UserDto registerUser(UserRegisterDto userRegisterDto) {
         User toRegisterUser = userMapper.userRegisterDtoToUser(userRegisterDto);

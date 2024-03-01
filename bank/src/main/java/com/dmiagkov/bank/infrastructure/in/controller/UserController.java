@@ -3,6 +3,7 @@ package com.dmiagkov.bank.infrastructure.in.controller;
 import com.dmiagkov.bank.application.dto.incoming.UpdateInfoDto;
 import com.dmiagkov.bank.application.dto.outgoing.UserDto;
 import com.dmiagkov.bank.application.service.UserService;
+import com.dmiagkov.bank.aspects.annotations.Loggable;
 import com.dmiagkov.bank.infrastructure.in.validator.UserDtoValidator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Loggable
 @RestController
 @RequiredArgsConstructor
 public class UserController {

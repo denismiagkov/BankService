@@ -6,6 +6,7 @@ import com.dmiagkov.bank.application.dto.outgoing.AccountDto;
 import com.dmiagkov.bank.application.dto.outgoing.TransactionDto;
 import com.dmiagkov.bank.application.service.AccountService;
 import com.dmiagkov.bank.application.service.TransactionService;
+import com.dmiagkov.bank.aspects.annotations.Loggable;
 import com.dmiagkov.bank.domain.Transaction;
 import com.dmiagkov.bank.infrastructure.in.validator.TransactionDtoValidator;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,6 +17,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,7 @@ import java.util.List;
  * Класс обрабатывает запросы, полученные от пользователя и управляет взаимодействием между внешним
  * и внутренними слоями приложения
  */
+@Loggable
 @Tag(name = "Transaction Controller")
 @RestController
 @RequestMapping("/api")

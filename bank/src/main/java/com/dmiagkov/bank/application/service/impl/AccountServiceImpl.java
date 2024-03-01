@@ -13,7 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Random;
 
 /**
@@ -25,8 +27,11 @@ import java.util.Random;
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
+    private static final Integer MAX_PERCENT_INCOME = 207;
+    private static final Integer PERCENT_RATE = 5;
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
+
 
     /**
      * Метод создает денежный счет. Применяется высокоуровневым сервисом при создании
@@ -60,6 +65,29 @@ public class AccountServiceImpl implements AccountService {
         return accountMapper.accountToAccountDto(account);
     }
 
+    private void updateDeposit(Account account) {
+        BigDecimal currentDeposit = account.getBalance();
+        BigDecimal initialDeposit = account.getInitialDeposit();
+        BigDecimal maxProbablePercentIncome = initialDeposit
+                .multiply(BigDecimal.valueOf(MAX_PERCENT_INCOME))
+                .divide(BigDecimal.valueOf(100));
+        BigDecimal receivedIncome = currentDeposit.subtract(initialDeposit);
+        if (receivedIncome.compareTo(maxProbablePercentIncome) < 0) {
+            LocalDateTime now = LocalDateTime.now();
+            long minutes = ChronoUnit.MINUTES.between(
+                    account.getOpenedAt(), now);
+            BigDecimal currentPercentIncome = initialDeposit
+                    .multiply(BigDecimal.valueOf(PERCENT_RATE))
+                    .multiply(BigDecimal.valueOf(minutes))
+                    .divide(BigDecimal.valueOf(100));
+            BigDecimal newDepositValue = initialDeposit.add(currentPercentIncome);
+            currentDeposit = currentDeposit.compareTo(newDepositValue) > 0
+                    ? currentDeposit
+                    : newDepositValue;
+            account.setBalance(currentDeposit);
+        }
+    }
+
     /**
      * Метод корректирует баланс на счете игрока после пополнения счета
      *
@@ -68,6 +96,7 @@ public class AccountServiceImpl implements AccountService {
      */
     public AccountDto setBalance(TransactionApplyDto dto) {
         Account account = accountRepository.findAccountByUserId(dto.getUserId());
+        updateDeposit(account);
         BigDecimal newBalance = dto.getType().equals(Transaction.TransactionType.CREDIT)
                 ? increaseBalance(account, dto)
                 : decreaseBalance(account, dto);
