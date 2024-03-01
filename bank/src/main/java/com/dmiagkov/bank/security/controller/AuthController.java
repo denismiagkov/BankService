@@ -8,6 +8,10 @@ import com.dmiagkov.bank.security.service.AuthService;
 import com.dmiagkov.bank.security.service.AuthServiceImpl;
 import com.dmiagkov.bank.security.http.JwtRequest;
 import com.dmiagkov.bank.security.http.JwtResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,12 +26,36 @@ public class AuthController {
     private final AuthService authService;
     private final DtoValidator validator;
 
+    @Operation(
+            summary = "Adds new telephone number to user progile",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "OK - Phone is added successfully",
+                            content = @Content(
+                                    schema = @Schema(implementation = UserDto.class))),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Forbidden - User violates constraints on data handling")
+            })
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest jwtRequest) {
         JwtResponse jwtResponse = authService.signIn(jwtRequest);
         return ResponseEntity.ok(jwtResponse);
     }
 
+    @Operation(
+            summary = "Registers new user in application",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "Created - User is registered successfully",
+                            content = @Content(
+                                    schema = @Schema(implementation = UserDto.class))),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Bad Request - User enters incorrect data")
+            })
     @PostMapping("/registration")
     public ResponseEntity<UserDto> registerUser(@RequestBody UserRegisterDto userRegisterDto) {
         validator.validateRegisterDto(userRegisterDto);

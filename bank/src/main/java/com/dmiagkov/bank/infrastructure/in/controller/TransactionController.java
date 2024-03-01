@@ -6,6 +6,10 @@ import com.dmiagkov.bank.application.dto.outgoing.TransactionDto;
 import com.dmiagkov.bank.application.service.AccountService;
 import com.dmiagkov.bank.application.service.TransactionService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +25,7 @@ import java.util.List;
  * Класс обрабатывает запросы, полученные от пользователя и управляет взаимодействием между внешним
  * и внутренними слоями приложения
  */
+@Tag(name = "Transaction Controller")
 @RestController
 @RequestMapping("/api")
 @Tag(name = "REST-контроллер")
@@ -37,9 +42,20 @@ public class TransactionController {
      * @param login Session Attribute "Login" HttpServletRequest, содержащий логин игрока
      * @return текущий баланс на счет игрока
      */
-    @GetMapping("/users/balance")
+    @Operation(
+            summary = "Shows current balance on user account",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "OK - Current account balance",
+                            content = @Content(
+                                    schema = @Schema(implementation = AccountDto.class))),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Forbidden - User has no admin rights for access to requested data")
+            })
     @SecurityRequirement(name = "JWT")
-    @Operation(summary = "Просмотр баланса", description = "Позволяет узнать текущий баланс на счете игрока")
+    @GetMapping("/users/balance")
     public ResponseEntity<AccountDto> getCurrentBalance(@RequestAttribute("userId") Long userId) {
         AccountDto accountDto = accountService.getBalance(userId);
         return ResponseEntity.ok()

@@ -11,8 +11,6 @@ public interface UserService {
     UserDto addPhone(UpdateInfoDto updateDto);
     UserDto getUserDto(String login);
     UserDto deletePhone(UpdateInfoDto updateDto);
-
     UserDto addEmail(UpdateInfoDto updateInfoDto);
-
     UserDto deleteEmail(UpdateInfoDto updateInfoDto);
 }

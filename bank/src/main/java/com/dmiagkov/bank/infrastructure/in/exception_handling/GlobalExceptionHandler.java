@@ -1,5 +1,7 @@
 package com.dmiagkov.bank.infrastructure.in.exception_handling;
 
+import com.dmiagkov.bank.application.service.exceptions.UserNotExistException;
+import com.dmiagkov.bank.infrastructure.in.exception_handling.exceptions.*;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,20 +23,23 @@ public class GlobalExceptionHandler {
 //        return new ResponseEntity<>(exception.getMessage(), HttpStatus.UNAUTHORIZED);
 //    }
 //
-//    @ExceptionHandler(HasNoAdminStatusException.class)
-//    public ResponseEntity<String> handleException(HasNoAdminStatusException exception) {
-//        LOG.error(EXCEPTION_MESSAGE, exception);
-//        return new ResponseEntity<>(exception.getMessage(), HttpStatus.FORBIDDEN);
-//    }
-//
-//    @ExceptionHandler(UtilityTypeNotFoundException.class)
-//    public ResponseEntity<String> handleException(UtilityTypeNotFoundException exception) {
-//        LOG.error(EXCEPTION_MESSAGE, exception);
-//        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
-//    }
+
+    @ExceptionHandler({EmailIsNotUniqueException.class, IsOnlyOneEmailException.class,
+            IsOnlyOnePhoneException.class, LoginIsNotUniqueException.class,
+            PhoneIsNotUniqueException.class})
+    public ResponseEntity<String> handleException(RuntimeException exception) {
+        LOG.error(EXCEPTION_MESSAGE, exception);
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.FORBIDDEN);
+    }
 
     @ExceptionHandler()
-    public ResponseEntity<String> handleException(RuntimeException exception) {
+    public ResponseEntity<String> handleException(UserNotExistException exception) {
+        LOG.error(EXCEPTION_MESSAGE, exception);
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler()
+    public ResponseEntity<String> handleException(Exception exception) {
         LOG.error(EXCEPTION_MESSAGE, exception);
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }

@@ -4,14 +4,13 @@ import com.dmiagkov.bank.application.dto.incoming.EmailDto;
 import com.dmiagkov.bank.application.dto.incoming.PhoneDto;
 import com.dmiagkov.bank.application.dto.incoming.UserRegisterDto;
 import com.dmiagkov.bank.application.dto.outgoing.UserDto;
-import com.dmiagkov.bank.domain.Account;
 import com.dmiagkov.bank.domain.Email;
 import com.dmiagkov.bank.domain.Phone;
 import com.dmiagkov.bank.domain.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.time.LocalDate;
+import java.util.List;
 
 @Mapper
 public interface UserMapper {
@@ -35,6 +34,8 @@ public interface UserMapper {
     @Mapping(source = "login", target = "login")
     @Mapping(source = "password", target = "password")
     User userRegisterDtoToUser(UserRegisterDto userRegisterDto);
+
+    List<UserDto> listUsersToListUsersDto(List<User> users);
 
     @Mapping(source = "phoneNumber", target = "phoneNumber")
     Phone phoneDtoToPhone(PhoneDto phoneDto);
