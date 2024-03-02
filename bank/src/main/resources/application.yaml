@@ -5,21 +5,10 @@ spring:
     password: 123
     driver-class-name: org.postgresql.Driver
 
-  liquibase:
-    change-log: classpath:db/changelog/db.changelog-master.yaml
-#    default-schema: bank
-#    liquibase-schema: migration
-    enabled: true
-
   jpa:
     properties:
       hibernate:
         format_sql: true
         show_sql: true
-
-authentication:
-  valueOfJwtAccessSecretKey: Nb3YCWOp7kghAjoQkiNze2PTiLjQPQYdegcPM9oC77UkpUyJIuobhbeWRN+OI8PjXyGrITKxJWhYvrBlgH4JFA==
-  valueOfJwtRefreshSecretKey: tSlh5T96KurUBOsKV0Ja/AIVGKpakIvDpejeRBxukbL9xJrQ1XoCodsoQhH6gmWiUevBe/Gw1FRiHn9HzExyCQ==
-
 
 

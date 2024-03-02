@@ -11,5 +11,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
     Transaction save(Transaction transaction);
 
-    List<Transaction> findAllByAccountId(Long accountId);
+    List<Transaction> findAll();
 }

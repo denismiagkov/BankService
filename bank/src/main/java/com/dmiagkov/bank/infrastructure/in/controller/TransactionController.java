@@ -27,12 +27,10 @@ import java.util.List;
 @Loggable
 @Tag(name = "Transaction Controller")
 @RestController
-@RequestMapping("/api")
-@Tag(name = "REST-контроллер")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class TransactionController {
     private final AccountService accountService;
-
     private final TransactionService transactionService;
     private final TransactionDtoValidator validator;
 
@@ -56,7 +54,7 @@ public class TransactionController {
                             description = "Forbidden - User has no admin rights for access to requested data")
             })
     @SecurityRequirement(name = "JWT")
-    @GetMapping("/users/balance")
+    @GetMapping("/balance")
     public ResponseEntity<AccountDto> getCurrentBalance(@RequestAttribute("userId") Long userId) {
         AccountDto accountDto = accountService.getBalance(userId);
         return ResponseEntity.ok()
@@ -77,7 +75,7 @@ public class TransactionController {
                             description = "BadRequest - Invalid input data")
             })
     @SecurityRequirement(name = "JWT")
-    @PostMapping("/users/transaction/credit")
+    @PostMapping("/transaction/credit")
     public ResponseEntity<TransactionDto> commitCreditTransaction(
             @RequestAttribute("userId") @Parameter(description = "user id") Long userId,
             @RequestBody @Parameter(description = "transaction info") TransactionApplyDto transactionInfo) {
@@ -101,7 +99,7 @@ public class TransactionController {
                             description = "BadRequest - Invalid input data")
             })
     @SecurityRequirement(name = "JWT")
-    @PostMapping("/users/transaction/debit")
+    @PostMapping("/transaction/debit")
     public ResponseEntity<TransactionDto> commitDebitTransaction(
             @RequestAttribute("userId") @Parameter(description = "user id") Long userId,
             @RequestBody @Parameter(description = "transaction info") TransactionApplyDto transactionInfo) {

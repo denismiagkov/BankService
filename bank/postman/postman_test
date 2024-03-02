@@ -1,0 +1,101 @@
+AuthController#registerUser POST
+localhost:8080/api/auth/registration
+body:
+{
+    "first_name": "Maria",
+    "patronymic": "Abramovna",
+    "last_name": "Petrova",
+    "birth_date": "1988-07-11",
+    "phones": [
+        {
+            "phone_number": "+79771233720"
+        }
+    ],
+    "email": [
+        {
+            "email_address": "petrova@rambler.ru"
+        },
+        {
+            "email_address": "petrova@fmail.com"
+        }
+    ],
+    "login": "user4",
+    "password": "789",
+    "deposit": 9000.00
+}
+
+AuthController#login POST
+localhost:8080/api/auth/login
+body:
+{
+    "login": "user1",
+    "password": "123"
+}
+
+SearchController#findUserByEmail GET
+localhost:8080/api/users/search/email?email=orehova@mail.ru
+Authorization: your_jwt_token
+
+SearchController#findUserByPhone GET
+localhost:8080/api/users/search/phone?phone=%2B79162341234
+Authorization: your_jwt_token
+
+SearchController#findUsersByBirthdate GET
+localhost:8080/api/users/search/birthday?date=1981-01-01
+Authorization: your_jwt_token
+
+SearchController#findUsersByName GET
+localhost:8080/api/users/search/name?firstname=Ol&lastname
+Authorization: your_jwt_token
+
+TransactionController#commitCreditTransaction POST
+localhost:8080/api/users/transaction/credit
+Authorization: your_jwt_token
+body:
+{
+    "amount": "7000"
+}
+
+TransactionController#commitDebitTransaction POST
+localhost:8080/api/users/transaction/debit
+Authorization: your_jwt_token
+body:
+{
+    "amount": "5000",
+    "recipient_id": "2"
+}
+
+UserController#addPhone POST
+localhost:8080/api/users/phone
+Authorization: your_jwt_token
+body:
+{
+    "phone_to_add": "+79239871029"
+}
+
+UserController#deletePhone DELETE
+localhost:8080/api/users/phone
+Authorization: your_jwt_token
+body:
+{
+    "phone_to_remove": "+79162341234"
+}
+
+UserController#addEmail POST
+localhost:8080/api/users/email
+Authorization: your_jwt_token
+body:
+{
+    "email_to_add": "smirnov@rambler.ru"
+}
+
+UserController#deleteEmail DELETE
+localhost:8080/api/users/email
+Authorization: your_jwt_token
+body:
+{
+    "email_to_remove": "smirnov@yandex.ru"
+}
+
+
+

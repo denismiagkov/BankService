@@ -1,3 +1,12 @@
+### Postgres:
+cd src/test/resources/sql
+
+docker run --name bank-test -p 54325:5432 -e POSTGRES_USER=bank -e POSTGRES_PASSWORD=123 -e POSTGRES_DB=bank -d -v "$(pwd)":/docker-entrypoint-initdb.d postgres:16.1
+
+### Swagger:
+http://localhost:8080/swagger-ui/index.html
+http://localhost:8080/v3/api-docs
+
 # Тестовое задание
 Необходимо написать сервис для “банковских” операций. В нашей системе есть пользователи (клиенты), у каждого клиента есть строго один “банковский аккаунт”, в котором изначально лежит какая-то сумма. Деньги можно переводить между клиентами. На средства также начисляются проценты.
 

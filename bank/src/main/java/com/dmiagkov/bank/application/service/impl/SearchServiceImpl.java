@@ -27,7 +27,7 @@ public class SearchServiceImpl implements SearchService {
      */
     @Override
     public UserDto findUserByEmail(Email email) {
-        User user = userRepository.findUserByEmailContaining(email);
+        User user = userRepository.findUserByEmailContains(email);
         Optional<User> userOptional = Optional.ofNullable(user);
         return userMapper.userToUserDto(user);
     }
@@ -38,7 +38,7 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public UserDto findUserByPhone(Phone phone) {
         User user = Optional.ofNullable(
-                        userRepository.findUserByPhonesContaining(phone))
+                        userRepository.findUserByPhonesContains(phone))
                 .orElseThrow(UserIsNotExistException::new);
         return userMapper.userToUserDto(user);
     }

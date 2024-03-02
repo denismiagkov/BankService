@@ -2,6 +2,7 @@ package com.dmiagkov.bank.security.controller;
 
 import com.dmiagkov.bank.application.dto.incoming.UserRegisterDto;
 import com.dmiagkov.bank.application.dto.outgoing.UserDto;
+import com.dmiagkov.bank.aspects.annotations.Loggable;
 import com.dmiagkov.bank.infrastructure.in.validator.UserDtoValidator;
 import com.dmiagkov.bank.security.service.AuthService;
 import com.dmiagkov.bank.security.http.JwtRequest;
@@ -16,10 +17,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Loggable
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-@Slf4j
 public class AuthController {
     private final AuthService authService;
     private final UserDtoValidator validator;

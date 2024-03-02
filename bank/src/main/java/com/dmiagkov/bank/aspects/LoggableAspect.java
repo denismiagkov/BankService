@@ -1,5 +1,6 @@
 package com.dmiagkov.bank.aspects;
 
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -11,11 +12,10 @@ import org.springframework.stereotype.Component;
 /**
  * Класс-аспект, реализующий сквозное логирование работы методов
  */
+@Slf4j
 @Aspect
 @Component
 public class LoggableAspect {
-
-    private static final Logger log = LoggerFactory.getLogger(LoggableAspect.class);
 
     @Pointcut("within(@com.dmiagkov.bank.aspects.annotations.Loggable *) && execution(* * (..))")
     public void annotatedByLoggable() {
