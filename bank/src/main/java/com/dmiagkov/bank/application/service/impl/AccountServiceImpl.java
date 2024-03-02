@@ -18,12 +18,6 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Random;
 
-/**
- * Низкоуровневый сервис, реализующий методы, связанные с <strong>созданием денежного счета игрока,
- * просмотром текущего баланса и истории операций по нему</strong>.
- * Описанные в классе методы вызываются высокоуровневым сервисом для выполнения конкретных специализированных
- * операций, соответствующих бизнес-логике.
- */
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
@@ -34,10 +28,7 @@ public class AccountServiceImpl implements AccountService {
 
 
     /**
-     * Метод создает денежный счет. Применяется высокоуровневым сервисом при создании
-     * и регистрации нового игрока {@link MainService#registerPlayer(com.denismiagkov.walletservice.application.dto.PlayerDto)}
-     *
-     * @param player игрок, для которого создается денежный счет
+     * {@inheritDoc}
      */
     @Override
     public AccountDto createAccount(UserRegisterDto userRegisterDto, Long userId) {
@@ -54,10 +45,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
-     * Метод возвращает текущий баланс на счете игрока по его id
-     *
-     * @param playerId id игрока
-     * @return денежный счет
+     * {@inheritDoc}
      */
     @Override
     public AccountDto getBalance(Long userId) {
@@ -65,6 +53,26 @@ public class AccountServiceImpl implements AccountService {
         return accountMapper.accountToAccountDto(account);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AccountDto setBalance(TransactionApplyDto dto) {
+        Account account = accountRepository.findAccountByUserId(dto.getUserId());
+        updateDeposit(account);
+        BigDecimal newBalance = dto.getType().equals(Transaction.TransactionType.CREDIT)
+                ? increaseBalance(account, dto)
+                : decreaseBalance(account, dto);
+        account.setBalance(newBalance);
+        account = accountRepository.save(account);
+        return accountMapper.accountToAccountDto(account);
+    }
+
+    /**
+     * Метод обновляет данные о балансе счета с учетом начисления процентов по депозиту
+     *
+     * @param account Счет пользователя
+     */
     private void updateDeposit(Account account) {
         BigDecimal currentDeposit = account.getBalance();
         BigDecimal initialDeposit = account.getInitialDeposit();
@@ -80,7 +88,9 @@ public class AccountServiceImpl implements AccountService {
                     .multiply(BigDecimal.valueOf(PERCENT_RATE))
                     .multiply(BigDecimal.valueOf(minutes))
                     .divide(BigDecimal.valueOf(100));
-            BigDecimal newDepositValue = initialDeposit.add(currentPercentIncome);
+            BigDecimal newDepositValue = currentPercentIncome.compareTo(maxProbablePercentIncome) < 0
+                    ? initialDeposit.add(currentPercentIncome)
+                    : initialDeposit.add(maxProbablePercentIncome);
             currentDeposit = currentDeposit.compareTo(newDepositValue) > 0
                     ? currentDeposit
                     : newDepositValue;
@@ -89,26 +99,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     /**
-     * Метод корректирует баланс на счете игрока после пополнения счета
-     *
-     * @param playerId id игрока
-     * @param amount   денежная сумма
-     */
-    public AccountDto setBalance(TransactionApplyDto dto) {
-        Account account = accountRepository.findAccountByUserId(dto.getUserId());
-        updateDeposit(account);
-        BigDecimal newBalance = dto.getType().equals(Transaction.TransactionType.CREDIT)
-                ? increaseBalance(account, dto)
-                : decreaseBalance(account, dto);
-        account.setBalance(newBalance);
-        account = accountRepository.save(account);
-        return accountMapper.accountToAccountDto(account);
-    }
-
-
-    /**
      * Метод имитирует процесс присвоения номера создаваемому счету при регистрации игрока
-     * путем использования генератора случайных чисел {@link AccountServiceImpl#createAccount(Player)}
+     * путем использования генератора случайных чисел
      *
      * @return номер денежного счета
      */
@@ -122,10 +114,24 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
+    /**
+     * Метод увеличивает баланс счета при пополнении счета пользователя
+     *
+     * @param account Счет пользоветеля
+     * @param dto     Сведения о транзакции
+     * @return BigDecimal новое состояние счета
+     */
     private BigDecimal increaseBalance(Account account, TransactionApplyDto dto) {
         return account.getBalance().add(dto.getAmount());
     }
 
+    /**
+     * Метод уменьшает баланс счета при списании средств со счета пользователя
+     *
+     * @param account Счет пользоветеля
+     * @param dto     Сведения о транзакции
+     * @return BigDecimal новое состояние счета
+     */
     private BigDecimal decreaseBalance(Account account, TransactionApplyDto dto) {
         if (areFundsEnough(account, dto.getAmount())) {
             return account.getBalance().subtract(dto.getAmount());
@@ -137,8 +143,8 @@ public class AccountServiceImpl implements AccountService {
     /**
      * Метод рассчитывает, достаточно ли денежных средств на счете игрока для их списания.
      *
-     * @param playerId id игрока
-     * @param amount   сумма списания
+     * @param account Счет пользоваетеля
+     * @param amount  сумма списания
      * @return boolean
      * @throws NotEnoughFundsOnAccountException в случае, если на счете игрока недостаточно денежных средств для
      *                                          совершения транзакции

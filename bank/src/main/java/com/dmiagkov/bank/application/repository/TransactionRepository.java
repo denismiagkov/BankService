@@ -9,7 +9,6 @@ import java.util.List;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
-    @Override
     Transaction save(Transaction transaction);
 
     List<Transaction> findAllByAccountId(Long accountId);

@@ -11,11 +11,12 @@ import java.util.List;
 public interface TransactionService {
 
     /**
-     * Метод должен реализовывать просмотр истории транзакций
+     * Метод, реализующий пополнение денежного счета пользователя (кредитная транзакция)
      */
-    List<TransactionDto> getTransactionHistory(Long accountId);
-
     TransactionDto commitCreditTransaction(TransactionApplyDto transactionInfo);
 
+    /**
+     * Метод, реализующий списание денежных средств со счета пользователя (деебтовая транзакция)
+     */
     TransactionDto commitDebitTransaction(TransactionApplyDto transactionInfo);
 }

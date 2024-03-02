@@ -14,10 +14,8 @@ import java.util.concurrent.TimeUnit;
 public class JwtProvider {
 
     private final String secret_key = "mysecretkey";
-    private long accessTokenValidity = 5;
-
+    private final long accessTokenValidity = 5;
     private final JwtParser jwtParser;
-
     private final String TOKEN_HEADER = "Authorization";
     private final String TOKEN_PREFIX = "Bearer ";
 
@@ -74,14 +72,4 @@ public class JwtProvider {
             throw e;
         }
     }
-
-    public String getLogin(Claims claims) {
-        return claims.getSubject();
-    }
-//
-//    private List<String> getRoles(Claims claims) {
-//        return (List<String>) claims.get("roles");
-//    }
-
-
 }

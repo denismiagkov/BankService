@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Embeddable
 public class Email {
+
     @JsonProperty("email_address")
     @Column(unique = true)
     private String emailAddress;

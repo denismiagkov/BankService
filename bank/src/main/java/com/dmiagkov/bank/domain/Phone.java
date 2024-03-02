@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Embeddable
 public class Phone {
+
     @JsonProperty("phone_number")
     @Column(unique = true)
     private String phoneNumber;

@@ -46,7 +46,6 @@ public class User {
     @AttributeOverride(name = "phoneNumber", column = @Column(name = "phone"))
     private List< Phone> phones = new ArrayList<>();
 
-
     @Builder.Default
     @ElementCollection
     @CollectionTable(name = "user_emails", joinColumns = @JoinColumn(name = "user_id"))

@@ -10,14 +10,27 @@ import com.dmiagkov.bank.application.dto.outgoing.AccountDto;
 public interface AccountService {
 
     /**
-     * Метод должен реализовывать создание счета
+     * Метод создает денежный счет пользователя.
+     *
+     * @param userRegisterDto Регистрационные данные пользоветеля
+     * @param userId          id пользовтеля
+     * @return AccountDto Сведения о счете
      */
     AccountDto createAccount(UserRegisterDto userRegisterDto, Long userId);
 
     /**
-     * * Метод должен реализовывать просмотр текущего баланса
+     * * Метод реализует просмотр текущего баланса
+     *
+     * @param userId id пользователя
+     * @return AccountDto Информация о счете пользователя
      */
     AccountDto getBalance(Long userId);
 
+    /**
+     * Метод обновляет состояние счета пользоветеля после совешения транзакции
+     *
+     * @param transactionInfo Сведения о транзакции
+     * @return Обновленная информация о счете
+     */
     AccountDto setBalance(TransactionApplyDto transactionInfo);
 }

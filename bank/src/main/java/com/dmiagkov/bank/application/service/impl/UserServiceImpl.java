@@ -21,6 +21,9 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final AccountService accountService;
 
+    /**
+     * {@inheritDoc}
+     */
     @Transactional
     @Override
     public UserDto registerUser(UserRegisterDto userRegisterDto) {
@@ -30,11 +33,19 @@ public class UserServiceImpl implements UserService {
         return userMapper.userToUserDto(registeredUser);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public UserDto getUserDto(String login) {
         User user = userRepository.findUserByLogin(login);
         return userMapper.userToUserDto(user);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public UserDto addPhone(UpdateInfoDto updateDto) {
         User user = userRepository.findUserById(updateDto.getUserId());
         user.getPhones().add(
@@ -44,6 +55,10 @@ public class UserServiceImpl implements UserService {
         return userMapper.userToUserDto(user);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public UserDto deletePhone(UpdateInfoDto updateDto) {
         User user = userRepository.findUserById(updateDto.getUserId());
         user.getPhones().remove(
@@ -53,6 +68,10 @@ public class UserServiceImpl implements UserService {
         return userMapper.userToUserDto(user);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public UserDto addEmail(UpdateInfoDto updateDto) {
         User user = userRepository.findUserById(updateDto.getUserId());
         user.getEmail().add(
@@ -62,6 +81,10 @@ public class UserServiceImpl implements UserService {
         return userMapper.userToUserDto(user);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public UserDto deleteEmail(UpdateInfoDto updateDto) {
         User user = userRepository.findUserById(updateDto.getUserId());
         user.getEmail().remove(
@@ -71,7 +94,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.userToUserDto(user);
     }
 
-    public boolean existsUser(Long id){
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean existsUser(Long id) {
         return userRepository.existsById(id);
     }
 }

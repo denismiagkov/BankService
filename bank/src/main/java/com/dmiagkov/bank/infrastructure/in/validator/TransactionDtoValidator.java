@@ -15,12 +15,18 @@ import java.math.BigDecimal;
 public class TransactionDtoValidator {
     private final UserService userService;
 
+    /**
+     * Валидирует сумму поступления и id получателя платежа
+     */
     public boolean validateTransactionInfo(TransactionApplyDto dto) {
         return dto.getType().equals(Transaction.TransactionType.CREDIT)
                 ? validateIncomingSum(dto)
                 : validateRecipient(dto);
     }
 
+    /**
+     * Валидирует сумму поступления
+     */
     public boolean validateIncomingSum(TransactionApplyDto dto) {
         if (dto.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
             throw new NegativeTransactionSumException();
@@ -28,6 +34,9 @@ public class TransactionDtoValidator {
         return true;
     }
 
+    /**
+     * Валидирует получателя платежа
+     */
     public boolean validateRecipient(TransactionApplyDto dto) {
         if (!userService.existsUser(dto.getRecepientId())) {
             throw new UserIsNotExistException();

@@ -27,10 +27,7 @@ public class AuthServiceImpl implements AuthService {
 
 
     /**
-     * Регистрация пользователя
-     *
-     * @param request данные пользователя
-     * @return токен
+     * {@inheritDoc}
      */
     @Override
     public UserDto signUp(UserRegisterDto userRegisterDto) {
@@ -41,10 +38,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /**
-     * Аутентификация пользователя
-     *
-     * @param request данные пользователя
-     * @return токен
+     * {@inheritDoc}
      */
     @Override
     public JwtResponse signIn(JwtRequest request) {

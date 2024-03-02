@@ -20,17 +20,7 @@ public class Account {
     private Long id;
     private Long userId;
     private String number;
-    @Positive
     private BigDecimal balance;
     private LocalDateTime openedAt;
     private BigDecimal initialDeposit;
-//
-//    @Builder
-//    public Account(Long userId, String number, BigDecimal amount, LocalDateTime openedAt, BigDecimal initialDeposit) {
-//        this.userId = userId;
-//        this.number = number;
-//        this.balance = amount;
-//        this.initialDeposit = initialDeposit;
-//    }
-
 }

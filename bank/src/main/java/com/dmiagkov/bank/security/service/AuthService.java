@@ -9,6 +9,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface AuthService {
+    /**
+     * Метод регистрации нового пользователя
+     */
     UserDto signUp(UserRegisterDto userRegisterDto);
+
+    /**
+     * Метод входа в приложение
+     */
     JwtResponse signIn(JwtRequest request);
 }

@@ -16,12 +16,5 @@ public interface AccountRepository extends JpaRepository<Account, String> {
 
     Account findAccountByUserId(Long userId);
 
-    @Transactional
-    @Modifying
-    @Query("update Account a " +
-           "set a.balance = :amount " +
-           "where a.id = :id")
-    Account update(Long id, BigDecimal amount);
-
     boolean existsByNumber(String number);
 }

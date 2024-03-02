@@ -24,10 +24,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * Класс обрабатывает запросы, полученные от пользователя и управляет взаимодействием между внешним
- * и внутренними слоями приложения
- */
 @Loggable
 @Tag(name = "Transaction Controller")
 @RestController
@@ -68,26 +64,20 @@ public class TransactionController {
                 .body(accountDto);
     }
 
-    /**
-     * Метод вызывает в сервисе историю дебетовых и кредитных операций по счету игрока
-     * и возвращает пользователю результат обработки запроса.
-     *
-     * @param login Session Attribute "Login" HttpServletRequest, содержащий логин игрока
-     * @return история транзакций на счете игрока
-     */
-    @PostMapping("/users/transactions")
+    @Operation(
+            summary = "Adding funds on account",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "OK - Account replenished successfully",
+                            content = @Content(
+                                    schema = @Schema(implementation = AccountDto.class))),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "BadRequest - Invalid input data")
+            })
     @SecurityRequirement(name = "JWT")
-    @Operation(summary = "История транзакций", description = "Позволяет просмотреть историю транзакций на счете игрока")
-    public ResponseEntity<List<TransactionDto>> getTransactionsHistory(@SessionAttribute("Login") Long accountId) {
-        List<TransactionDto> transactionDtoList = transactionService.getTransactionHistory(accountId);
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(transactionDtoList);
-    }
-
     @PostMapping("/users/transaction/credit")
-    @SecurityRequirement(name = "JWT")
-    @Operation(summary = "Пополнение счета", description = "Позволяет пополнить счет пользователя")
     public ResponseEntity<TransactionDto> commitCreditTransaction(
             @RequestAttribute("userId") @Parameter(description = "user id") Long userId,
             @RequestBody @Parameter(description = "transaction info") TransactionApplyDto transactionInfo) {
@@ -98,9 +88,20 @@ public class TransactionController {
                 .body(transactionResp);
     }
 
-    @PostMapping("/users/transaction/debit")
+    @Operation(
+            summary = "Writing off funds on account",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "OK - Funds written successfully",
+                            content = @Content(
+                                    schema = @Schema(implementation = AccountDto.class))),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "BadRequest - Invalid input data")
+            })
     @SecurityRequirement(name = "JWT")
-    @Operation(summary = "Перевод средств со счета", description = "Позволяет перевести средства со счета пользователя")
+    @PostMapping("/users/transaction/debit")
     public ResponseEntity<TransactionDto> commitDebitTransaction(
             @RequestAttribute("userId") @Parameter(description = "user id") Long userId,
             @RequestBody @Parameter(description = "transaction info") TransactionApplyDto transactionInfo) {

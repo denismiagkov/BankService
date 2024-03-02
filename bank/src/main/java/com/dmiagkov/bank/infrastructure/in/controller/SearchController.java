@@ -109,6 +109,4 @@ public class SearchController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(searchService.findUsersByName(firstName, lastName, pageable));
     }
-
-
 }

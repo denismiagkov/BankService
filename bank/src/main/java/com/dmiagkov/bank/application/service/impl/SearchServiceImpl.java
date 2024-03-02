@@ -22,12 +22,20 @@ public class SearchServiceImpl implements SearchService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public UserDto findUserByEmail(Email email) {
         User user = userRepository.findUserByEmailContaining(email);
         Optional<User> userOptional = Optional.ofNullable(user);
         return userMapper.userToUserDto(user);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public UserDto findUserByPhone(Phone phone) {
         User user = Optional.ofNullable(
                         userRepository.findUserByPhonesContaining(phone))
@@ -35,11 +43,19 @@ public class SearchServiceImpl implements SearchService {
         return userMapper.userToUserDto(user);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public List<UserDto> findUsersByBirthDate(LocalDate date, PageRequest pageable) {
         List<User> users = userRepository.findUsersByBirthDateAfter(date, pageable);
         return userMapper.listUsersToListUsersDto(users);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public List<UserDto> findUsersByName(String firstName, String lastname, PageRequest pageable) {
         List<User> users = userRepository.findAllByName(firstName, lastname, pageable);
         return userMapper.listUsersToListUsersDto(users);

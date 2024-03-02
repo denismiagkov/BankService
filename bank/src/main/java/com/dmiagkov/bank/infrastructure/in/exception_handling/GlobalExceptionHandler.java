@@ -13,34 +13,25 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
-    public static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionHandler.class);
     private static final String EXCEPTION_MESSAGE = "EXCEPTION OCCURRED: ";
-
-//    @ExceptionHandler(AuthenticationFailedException.class)
-//    public ResponseEntity<String> handleException(AuthenticationFailedException exception) {
-//        LOG.error(EXCEPTION_MESSAGE, exception);
-//        return new ResponseEntity<>(exception.getMessage(), HttpStatus.UNAUTHORIZED);
-//    }
-//
 
     @ExceptionHandler({EmailIsNotUniqueException.class, IsOnlyOneEmailException.class,
             IsOnlyOnePhoneException.class, LoginIsNotUniqueException.class,
             PhoneIsNotUniqueException.class})
     public ResponseEntity<String> handleException(RuntimeException exception) {
-        LOG.error(EXCEPTION_MESSAGE, exception);
+        log.error(EXCEPTION_MESSAGE, exception);
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler()
     public ResponseEntity<String> handleException(UserIsNotExistException exception) {
-        LOG.error(EXCEPTION_MESSAGE, exception);
+        log.error(EXCEPTION_MESSAGE, exception);
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler()
     public ResponseEntity<String> handleException(Exception exception) {
-        LOG.error(EXCEPTION_MESSAGE, exception);
+        log.error(EXCEPTION_MESSAGE, exception);
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
